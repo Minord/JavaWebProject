@@ -7,7 +7,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h = "http://xmlns.jcp.org/jsf/html"
-      xmlns:p = "http://primefaces.org/ui">
+      xmlns:p = "http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Tienda el Manguito</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,16 +21,16 @@ and open the template in the editor.
             <p:menuitem value="Productos" url="faces/productos.xhtml" />
             <p:menuitem value="Proveedores" url="faces/proveedores.xhtml" />
             <p:menuitem value="Categorias" url="faces/categoria.xhtml" />
-            <p:menuitem value="Reportes" url="#" />
+            <p:menuitem value="Reportes" url="#"/>
+            <p:menuitem value="Cerrar Seccion" url="faces/login.xhtml" style="margin-left: 350px"/>
         </p:menubar>
          
-        <p:panel>
+        <p:panel style="width: 400px; margin: 10px 10px 30% 30%">
         <h1>Tienda el manguito</h1>
             <p:graphicImage value = "http://www.valledepanchoy.com/wp-content/uploads/2017/03/jaleas_mango1.png"
                             width = "400px"/>
-            <h:outputText value = "\n Esta es la pagina de la tienda el Manguito una tienda de jaleas de mango que se venden al rededor de todo el mundo. Vea nuestro catagolo de productos :)"/>
-        </p:panel>
-        
+            <h:outputText  value = "Esta es la pagina de la tienda el Manguito una tienda de jaleas de mango que se venden al rededor de todo el mundo. Vea nuestro catagolo de productos :)"/>
+            </p:panel>
         <!-- Contenido de la pagina-->
     </h:body>
 </html>

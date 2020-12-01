@@ -7,7 +7,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h = "http://xmlns.jcp.org/jsf/html"
-      xmlns:p = "http://primefaces.org/ui">
+      xmlns:p = "http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Proveedores | Tienda el Manguito</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -21,8 +22,136 @@ and open the template in the editor.
             <p:menuitem value="Proveedores" url="faces/proveedores.xhtml" />
             <p:menuitem value="Categorias" url="faces/categoria.xhtml" />
             <p:menuitem value="Reportes" url="#" />
+            <p:menuitem value="Cerrar Seccion" url="faces/login.xhtml" style="margin-left: 350px"/>
         </p:menubar>
         
-        <h1>TODO write content</h1>
+        <!--Productos CRUD-->
+        <h:form id="list">
+            <p:panel header="CRUD de Proveedores">
+                
+                
+                <!-- -->
+                <!--Esta seccion lo que hace es mostrar el
+                dialogo de de añadir y elimina el objeto
+                proveedor que exista en la clase CategoriasBean-->
+                <p:commandButton actionListener="#{proveedoresBean.cleanProveedor()}" 
+                                 oncomplete="PF('dlgSave').show();"
+                                 update=':form'
+                                 value='Agregar' 
+                                 style='margin-bottom: 10px;'> 
+                </p:commandButton>
+                
+                <!-- Esta es la Seccion donde se muestra la tabla de 
+                Proveedores-->
+                <p:dataTable var="item" value="#{proveedoresBean.findAll()}" 
+                                     id="dataTbl"
+                                     paginator="true"
+                                     rows="8">
+                    
+                             <!--Definicion de la columna del id-->
+                            <p:column headerText="id">
+                                <h:outputText value="#{item.proveedorID}" />
+                            </p:column>
+
+                            <!-- Definicion de la columna del nombre de contacto-->
+                            <p:column headerText="empresa">
+                                <h:outputText value="#{item.nombreEmpresa}" />
+                            </p:column>
+                             
+                            <!-- Definicion de la columna del nombre de contacto-->
+                            <p:column headerText="nombre">
+                                <h:outputText value="#{item.nombreContacto}" />
+                            </p:column>
+                              
+                            <!-- Creacion del la columna telefono-->
+                            <p:column headerText="teléfono">
+                                <h:outputText value="#{item.telefono}" />
+                            </p:column>
+                            
+                            <!-- Creacion del la columna pais-->
+                            <p:column headerText="pais">
+                                <h:outputText value="#{item.pais}" />
+                            </p:column>
+                            
+                             <!-- Creacion de la columna de botones para
+                             Hacer Ediciones y Eliminar elementos-->
+                            <p:column headerText="Opciones">
+                                
+                                 <!--Boton Editar-->
+                                <p:commandButton value="Editar" 
+                                                 oncomplete="PF('dlgSave').show();"
+                                                 actionListener="#{proveedoresBean.setProveedor(proveedor)}"
+                                                 update=':form'
+                                                 style="margin-right: 20px;"> 
+                                    
+                                </p:commandButton>
+                                 
+                                 <!-- Boton Borrar-->
+                                <p:commandButton value="Borrar" 
+                                                 oncomplete="PF('dlgDelete').show();"
+                                                 update=':frmDelete'> 
+                                    <f:setPropertyActionListener 
+                                        target="#{proveedoresBean.proveedor}" 
+                                        value="#{item}"/>
+                                </p:commandButton>
+                                 
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form> 
+
+        
+                <!-- Dialogo Oculto para Crear o Editar Proveedor-->
+                <h:form id="form">
+                    <p:dialog header="Proveedor" 
+                              widgetVar="dlgSave" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <p:outputPanel id="save" style="text-align:center;">
+                            <h:inputHidden value="#{proveedoresBean.proveedor.proveedorID}" id="id"/>
+                            <p:panelGrid  columns="2"
+                                          columnClasses="label,value"> 
+                                <h:outputText value="Nombre:" />
+                                <p:inputText value="#{proveedoresBean.proveedor.nombreContacto}" required="true" />
+                                
+                                <h:outputText value="Nombre:" />
+                                <p:inputText value="#{proveedoresBean.proveedor.nombreContacto}" required="true" />
+                                <h:outputText value="Teléfono:" />
+                                <p:inputText value="#{proveedoresBean.proveedor.telefono}" required="true"/>
+                            </p:panelGrid>
+                            <p:commandButton value="Guardar" 
+                                             actionListener="#{proveedoresBean.cleanProveedor()}"
+                                             update=":list:dataTbl"
+                                             oncomplete="PF('dlgSave').hide();">
+                                                 
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" onclick="PF('dlgSave').hide();">
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+                
+                 <!-- Dialogo Oculto para eliminar un Proveedor-->
+                <h:form id="frmDelete">
+                     <p:dialog header="Borrar!" 
+                              widgetVar="dlgDelete" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                         <p:outputPanel id="delete" style="text-align:center;">
+                             Desea eliminar el registro #{proveedoresBean.proveedor.nombreContacto} ?
+                             <h:inputHidden value="#{proveedoresBean.proveedor.proveedorID}" id="id"/>
+                             <h:inputHidden value="#{proveedoresBean.proveedor.nombreContacto}" id="nombre"/>
+                             <h:inputHidden value="#{proveedoresBean.proveedor.telefono}" id="telefono"/>
+                            <p:commandButton value="Si" 
+                             actionListener="#{proveedoresBean.deleteProveedor()}"
+                                             update=":list:dataTbl"
+                                             oncomplete="PF('dlgDelete').hide();"
+                                             style="margin-left: 10px; margin-right: 10px;">
+                                                 
+            </p:commandButton>
+            <p:commandButton value="No" onclick="PF('dlgDelete').hide();">
+            </p:commandButton>
+            </p:outputPanel>
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>

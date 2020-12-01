@@ -22,38 +22,41 @@ and open the template in the editor.
             <p:menuitem value="Proveedores" url="faces/proveedores.xhtml" />
             <p:menuitem value="Categorias" url="faces/categoria.xhtml" />
             <p:menuitem value="Reportes" url="#" />
+            <p:menuitem value="Cerrar Seccion" url="faces/login.xhtml" style="margin-left: 350px"/>
         </p:menubar>
-        
-        <div>TODO write content</div>
-        
+         
         <!--Productos CRUD-->
         <h:form id="list">
-                    <p:panel header="Productos">
-                        <p:commandButton actionListener="#{productosBean.cleanProducto()}" 
-                                         oncomplete="PF('dlgSave').show();"
-                                         update=':form'
-                                         value='Agregar' 
-                                         style='margin-bottom: 10px;'> 
-                        </p:commandButton>
-                        <p:dataTable var="item" value="#{productosBean.findAll()}" 
+            <p:panel header="Productos">
+                <p:commandButton actionListener="#{productosBean.cleanProducto()}" 
+                                 oncomplete="PF('dlgSave').show();"
+                                 update=':form'
+                                 value='Agregar' 
+                                 style='margin-bottom: 10px;'> 
+                </p:commandButton>
+                <p:dataTable var="item" value="#{productosBean.findAll()}" 
                                      id="dataTbl"
                                      paginator="true"
                                      rows="8">
                             <p:column headerText="id">
                                 <h:outputText value="#{item.productoID}" />
                             </p:column>
-
                             <p:column headerText="nombre">
                                 <h:outputText value="#{item.nombreProducto}" />
                             </p:column>
-
-                            <p:column headerText="teléfono">
+                            <p:column headerText="unidades en almacen">
                                 <h:outputText value="#{item.unidadesEnAlmacen}" />
+                            </p:column>
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{item.precioUnitario}" />
+                            </p:column>
+                            <p:column headerText="Descontinuado">
+                                <h:outputText value="#{item.discontinuado}" />
                             </p:column>
                             <p:column headerText="Opciones">
                                 <p:commandButton value="Editar" 
                                                  oncomplete="PF('dlgSave').show();"
-                                                 actionListener="#{productosBean.setProductos(transportista)}"
+                                                 actionListener="#{productosBean.setProductos(productos)}"
                                                  update=':form'
                                                  style="margin-right: 20px;"> 
                                     
@@ -64,14 +67,14 @@ and open the template in the editor.
                                     <f:setPropertyActionListener 
                                         target="#{productosBean.productos}" 
                                         value="#{item}"/>
-                                </p:commandButton>
+                                    </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
                 </h:form> 
 
                 <h:form id="form">
-                    <p:dialog header="Transportista" 
+                    <p:dialog header="Producto" 
                               widgetVar="dlgSave" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
 
@@ -81,11 +84,17 @@ and open the template in the editor.
                                           columnClasses="label,value"> 
                                 <h:outputText value="Nombre:" />
                                 <p:inputText value="#{productosBean.productos.nombreProducto}" required="true" />
-                                <h:outputText value="Teléfono:" />
-                                <p:inputText value="#{productosBean.productos.unidadesEnAlmacen}" required="true"/>
+                                <p:selectBooleanCheckbox value="#{productosBean.productos.discontinuado}" itemLabel="Descontinuado"/>
+                                <h:outputText value="*" />
+
+                                <h:outputText value="Unidades: " />
+                                <p:inputText value="#{productosBean.productos.unidadesEnAlmacen}" required="false" />
+                                
+                                <h:outputText value="Precio:" />
+                                <p:inputText value="#{productosBean.productos.precioUnitario}" required="false" />
                             </p:panelGrid>
                             <p:commandButton value="Guardar" 
-                                             actionListener="#{productosBean.cleanProducto()}"
+                                             actionListener="#{productosBean.saveProducto()}"
                                              update=":list:dataTbl"
                                              oncomplete="PF('dlgSave').hide();">
                                                  

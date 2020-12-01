@@ -7,7 +7,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h = "http://xmlns.jcp.org/jsf/html"
-      xmlns:p = "http://primefaces.org/ui">
+      xmlns:p = "http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Categorias | Tienda el Manguito</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -21,8 +22,99 @@ and open the template in the editor.
             <p:menuitem value="Proveedores" url="faces/proveedores.xhtml" />
             <p:menuitem value="Categorias" url="faces/categoria.xhtml" />
             <p:menuitem value="Reportes" url="#" />
+            <p:menuitem value="Cerrar Seccion" url="faces/login.xhtml" style="margin-left: 350px"/>
         </p:menubar>
         
-        <div>TODO write content</div>
+         <!--Productos CRUD-->
+        <h:form id="list">
+                <p:panel header="CRUD de Categorias">
+                <p:commandButton actionListener="#{categoriasBean.cleanCategoria()}" 
+                                 oncomplete="PF('dlgSave').show();"
+                                 update=':form'
+                                 value='Agregar' 
+                                 style='margin-bottom: 10px;'> 
+                </p:commandButton>
+                <p:dataTable var="item" value="#{categoriasBean.findAll()}" 
+                                     id="dataTbl"
+                                     paginator="true"
+                                     rows="8">
+                            <p:column headerText="id">
+                                <h:outputText value="#{item.categoriaID}" />
+                            </p:column>
+
+                            <p:column headerText="nombre">
+                                <h:outputText value="#{item.nombreCategoria}" />
+                            </p:column>
+
+                            <p:column headerText="teléfono">
+                                <h:outputText value="#{item.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Opciones">
+                                <p:commandButton value="Editar" 
+                                                 oncomplete="PF('dlgSave').show();"
+                                                 actionListener="#{categoriasBean.setCategoria(categoria)}"
+                                                 update=':form'
+                                                 style="margin-right: 20px;"> 
+                                    
+                                </p:commandButton>
+                                <p:commandButton value="Borrar" 
+                                                 oncomplete="PF('dlgDelete').show();"
+                                                 update=':frmDelete'> 
+                                    <f:setPropertyActionListener 
+                                        target="#{categoriasBean.categoria}" 
+                                        value="#{item}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form> 
+
+                <h:form id="form">
+                    <p:dialog header="Transportista" 
+                              widgetVar="dlgSave" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <p:outputPanel id="save" style="text-align:center;">
+                            <h:inputHidden value="#{categoriasBean.categoria.categoriaID}" id="id"/>
+                            <p:panelGrid  columns="2"
+                                          columnClasses="label,value"> 
+                                <h:outputText value="Nombre:" />
+                                <p:inputText value="#{categoriasBean.categoria.nombreCategoria}" required="true" />
+                                <h:outputText value="Teléfono:" />
+                                <p:inputText value="#{categoriasBean.categoria.descripcion}" required="true"/>
+                            </p:panelGrid>
+                            <p:commandButton value="Guardar" 
+                                             actionListener="#{categoriasBean.cleanCategoria()}"
+                                             update=":list:dataTbl"
+                                             oncomplete="PF('dlgSave').hide();">
+                                                 
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" onclick="PF('dlgSave').hide();">
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmDelete">
+                     <p:dialog header="Borrar!" 
+                              widgetVar="dlgDelete" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                         <p:outputPanel id="delete" style="text-align:center;">
+                             Desea eliminar el registro #{categoriasBean.categoria.nombreCategoria} ?
+                             <h:inputHidden value="#{categoriasBean.categoria.nombreCategoria}" id="id"/>
+                             <h:inputHidden value="#{categoriasBean.categoria.categoriaID}" id="nombre"/>
+                             <h:inputHidden value="#{categoriasBean.categoria.descripcion}" id="telefono"/>
+            <p:commandButton value="Si" 
+                             actionListener="#{categoriasBean.deleteCategoria()}"
+                                             update=":list:dataTbl"
+                                             oncomplete="PF('dlgDelete').hide();"
+                                             style="margin-left: 10px; margin-right: 10px;">
+                                                 
+            </p:commandButton>
+            <p:commandButton value="No" onclick="PF('dlgDelete').hide();">
+            </p:commandButton>
+            </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
     </h:body>
 </html>
