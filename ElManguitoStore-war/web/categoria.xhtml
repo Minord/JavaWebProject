@@ -46,7 +46,7 @@ and open the template in the editor.
                                 <h:outputText value="#{item.nombreCategoria}" />
                             </p:column>
 
-                            <p:column headerText="teléfono">
+                            <p:column headerText="descripcion">
                                 <h:outputText value="#{item.descripcion}" />
                             </p:column>
                             <p:column headerText="Opciones">
@@ -70,21 +70,22 @@ and open the template in the editor.
                 </h:form> 
 
                 <h:form id="form">
-                    <p:dialog header="Transportista" 
+                    <p:dialog header="Categoria" 
                               widgetVar="dlgSave" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
 
                         <p:outputPanel id="save" style="text-align:center;">
                             <h:inputHidden value="#{categoriasBean.categoria.categoriaID}" id="id"/>
                             <p:panelGrid  columns="2"
-                                          columnClasses="label,value"> 
+                                          columnClasses="label,value"
+                                          style="margin-bottom: 10px;"> 
                                 <h:outputText value="Nombre:" />
                                 <p:inputText value="#{categoriasBean.categoria.nombreCategoria}" required="true" />
-                                <h:outputText value="Teléfono:" />
+                                <h:outputText value="Descripcion" />
                                 <p:inputText value="#{categoriasBean.categoria.descripcion}" required="true"/>
                             </p:panelGrid>
                             <p:commandButton value="Guardar" 
-                                             actionListener="#{categoriasBean.cleanCategoria()}"
+                                             actionListener="#{categoriasBean.saveCategoria()}"
                                              update=":list:dataTbl"
                                              oncomplete="PF('dlgSave').hide();">
                                                  

@@ -33,8 +33,8 @@ public class ProductosBean implements Serializable{
         return this.productos;
     }
     
-    public void setProductos(Productos transportista) {
-        this.productos = transportista;
+    public void setProductos(Productos producto) {
+        this.productos = producto;
     }
     
     public List<Productos> findAll() {
@@ -59,7 +59,7 @@ public class ProductosBean implements Serializable{
     }
     
     public void deleteProducto() {
-        this.productosFacade.remove(productos);
+        this.productosFacade.remove(this.productos);
         this.cleanProducto();
     }
 }

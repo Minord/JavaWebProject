@@ -8,6 +8,7 @@ package app.controllers;
 import app.entidades.Proveedores;
 import app.web.ProveedoresFacadeLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -28,8 +29,24 @@ public class ProveedoresBean implements Serializable {
     private ProveedoresFacadeLocal productosFacade;
     private Proveedores proveedor;
     
+    private final List<String> paises;
+    
     public ProveedoresBean() {
         proveedor = new Proveedores();
+        paises = new ArrayList<>();
+        paises.add("Reino Unido");
+        paises.add("Estados Unidos");
+        paises.add("Japón");
+        paises.add("España");
+        paises.add("Australia");
+        paises.add("Suecia");
+        paises.add("Brasil");
+        paises.add("Alemania");
+        paises.add("Italia");
+        paises.add("Francia");
+        paises.add("Noruega");
+        paises.add("Dinamarca");
+        paises.add("Canadá");
     }
     
     public Proveedores getProveedor() {
@@ -65,5 +82,8 @@ public class ProveedoresBean implements Serializable {
         this.productosFacade.remove(proveedor);
         this.cleanProveedor();
     }
-    
+
+    public List<String> getPaises() {
+        return paises;
+    }
 }

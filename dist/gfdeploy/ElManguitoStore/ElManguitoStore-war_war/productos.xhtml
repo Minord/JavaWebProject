@@ -56,18 +56,16 @@ and open the template in the editor.
                             <p:column headerText="Opciones">
                                 <p:commandButton value="Editar" 
                                                  oncomplete="PF('dlgSave').show();"
-                                                 actionListener="#{productosBean.setProductos(productos)}"
+                                                 actionListener="#{productosBean.setProductos(item)}"
                                                  update=':form'
                                                  style="margin-right: 20px;"> 
                                     
                                 </p:commandButton>
                                 <p:commandButton value="Borrar" 
                                                  oncomplete="PF('dlgDelete').show();"
-                                                 update=':frmDelete'> 
-                                    <f:setPropertyActionListener 
-                                        target="#{productosBean.productos}" 
-                                        value="#{item}"/>
-                                    </p:commandButton>
+                                                 update=':frmDelete'
+                                                 actionListener="#{productosBean.setProductos(item)}"> 
+                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
@@ -81,7 +79,8 @@ and open the template in the editor.
                         <p:outputPanel id="save" style="text-align:center;">
                             <h:inputHidden value="#{productosBean.productos.productoID}" id="id"/>
                             <p:panelGrid  columns="2"
-                                          columnClasses="label,value"> 
+                                          columnClasses="label,value"
+                                          style="margin-bottom: 10px;"> 
                                 <h:outputText value="Nombre:" />
                                 <p:inputText value="#{productosBean.productos.nombreProducto}" required="true" />
                                 <p:selectBooleanCheckbox value="#{productosBean.productos.discontinuado}" itemLabel="Descontinuado"/>
@@ -109,10 +108,8 @@ and open the template in the editor.
                               widgetVar="dlgDelete" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
                          <p:outputPanel id="delete" style="text-align:center;">
-                             Desea eliminar el registro #{productosBean.productos.nombreProducto} ?
-                             <h:inputHidden value="#{productosBean.productos.productoID}" id="id"/>
-                             <h:inputHidden value="#{productosBean.productos.nombreProducto}" id="nombre"/>
-                             <h:inputHidden value="#{productosBean.productos.unidadesEnAlmacen}" id="telefono"/>
+                             
+                             <h:outputText value =" Desea eliminar el registro #{productosBean.productos.nombreProducto} ?"/>
             <p:commandButton value="Si" 
                              actionListener="#{productosBean.deleteProducto()}"
                                              update=":list:dataTbl"

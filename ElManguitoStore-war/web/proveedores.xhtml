@@ -110,17 +110,25 @@ and open the template in the editor.
                         <p:outputPanel id="save" style="text-align:center;">
                             <h:inputHidden value="#{proveedoresBean.proveedor.proveedorID}" id="id"/>
                             <p:panelGrid  columns="2"
-                                          columnClasses="label,value"> 
+                                          columnClasses="label,value"
+                                          style="margin-bottom: 15px;"> 
                                 <h:outputText value="Nombre:" />
                                 <p:inputText value="#{proveedoresBean.proveedor.nombreContacto}" required="true" />
                                 
-                                <h:outputText value="Nombre:" />
-                                <p:inputText value="#{proveedoresBean.proveedor.nombreContacto}" required="true" />
+                                <h:outputText value="Empresa:" />
+                                <p:inputText value="#{proveedoresBean.proveedor.nombreEmpresa}" required="true" />
                                 <h:outputText value="Teléfono:" />
                                 <p:inputText value="#{proveedoresBean.proveedor.telefono}" required="true"/>
+                                
+                                <p:outputLabel value="Pais" />
+                                <p:selectOneMenu id="car" value="#{proveedoresBean.proveedor.pais}">
+                                    <f:selectItem itemLabel="Seleccionar Pais" itemValue=""/>
+                                    <f:selectItems value="#{proveedoresBean.paises}" />
+                                </p:selectOneMenu>
+                                
                             </p:panelGrid>
                             <p:commandButton value="Guardar" 
-                                             actionListener="#{proveedoresBean.cleanProveedor()}"
+                                             actionListener="#{proveedoresBean.saveProveedor()}"
                                              update=":list:dataTbl"
                                              oncomplete="PF('dlgSave').hide();">
                                                  
